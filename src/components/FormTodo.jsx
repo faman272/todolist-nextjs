@@ -6,17 +6,19 @@ import { ModalTime } from "./ModalTime";
 
 
 // Mengambil data dari local storage
-const getTodosFromLS = () => {
-    const todos = localStorage.getItem('todos');
-    if (todos) {
-        return JSON.parse(todos);
-    } else {
-        return [];
-    }
-}
+
 
 const FormTodo = () => {
 
+    const getTodosFromLS = () => {
+        if (typeof window !== 'undefined') {
+            const todos = localStorage.getItem('todos');
+            if (todos) {
+                return JSON.parse(todos);
+            }
+        }
+        return [];
+    };
     //state text todo
     const [todo, setTodo] = useState('');
     //state list todo
@@ -39,29 +41,28 @@ const FormTodo = () => {
 
     //fungsi untuk menambahkan todo
     const handleAddTodo = () => {
+        if (typeof window !== 'undefined') {
+            // Lakukan operasi dengan localStorage hanya jika window didefinisikan
+            const date = new Date();
+            const time = date.getTime();
 
-        //ambil waktu saat ini sebagai ID todo
-        const date = new Date()
-        const time = date.getTime()
+            if (todo.trim() !== '') {
+                let todoObject = {
+                    ID: time,
+                    text: todo,
+                    completed: false,
+                    priority: false,
+                    time: timeTodo,
+                };
 
-        //cek jika input todo tidak kosong atau inputnya spasi
-        if (todo.trim() !== '') {
-            let todoObject = {
-                ID: time,
-                text: todo,
-                completed: false,
-                priority: false,
-                time: timeTodo,
+                const newTodos = [...todos, todoObject];
+                newTodos.sort((a, b) => b.ID - a.ID);
+                setTodos(newTodos);
+                setTodo('');
+                localStorage.setItem('todos', JSON.stringify(newTodos)); // Simpan ke localStorage
             }
-            //output dalam local storage 
-            const newTodos = [...todos, todoObject];
-
-            //sortir berdasarkan ID, todo yang paling baru akan berada di atas
-            newTodos.sort((a, b) => b.ID - a.ID)
-            setTodos(newTodos);
-            setTodo('');
         }
-    }
+    };
 
     const handleEnter = (e) => {
         if (e.key === "Enter") {
@@ -77,28 +78,35 @@ const FormTodo = () => {
 
     //fungsi untuk menghapus todo berdasarkan ID
     const handleDelete = (id) => {
-        const filterTodo = todos.filter((todo) => todo.ID !== id);
-        setTodos(filterTodo);
-    }
-
+        if (typeof window !== 'undefined') {
+            const filterTodo = todos.filter((todo) => todo.ID !== id);
+            setTodos(filterTodo);
+            localStorage.setItem('todos', JSON.stringify(filterTodo)); // Simpan ke localStorage
+        }
+    };
     //simpan data todo ke local storage ketika ada perubahan pada state todos
     useEffect(() => {
-        localStorage.setItem('todos', JSON.stringify(todos))
-    }, [todos])
-
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('todos', JSON.stringify(todos));
+        }
+    }, [todos]);
 
     //fungsi untuk menandai todo yang sudah selesai
     const handleCheckboxChange = (id) => {
-        let todoUpdate = []
+        if (typeof window !== 'undefined') {
+            let todoUpdate = [];
 
-        todos.map((todo) => {
-            if (todo.ID == id) {
-                todo.completed = !todo.completed
-            }
-            todoUpdate.push(todo)
-            setTodos(todoUpdate)
-        })
-    }
+            todos.map((todo) => {
+                if (todo.ID === id) {
+                    todo.completed = !todo.completed;
+                }
+                todoUpdate.push(todo);
+                setTodos(todoUpdate);
+                localStorage.setItem('todos', JSON.stringify(todoUpdate)); // Simpan ke localStorage
+            });
+        }
+    };
+
 
     //state untuk edit todo yang dipilih
     const [id, setId] = useState(null)
@@ -119,7 +127,7 @@ const FormTodo = () => {
         let item = items[id]
 
         item.text = todo
-        item.time = timeTodo 
+        item.time = timeTodo
         item.completed = false
 
         items[id] = item
@@ -148,25 +156,28 @@ const FormTodo = () => {
         }
     })
 
-//fungsi untuk menandai todo prioritas
+    //fungsi untuk menandai todo prioritas
     const handlePriority = (id) => {
-        let todoUpdate = [...todos]
-
-        const todoIndex = todoUpdate.findIndex((todo) => todo.ID === id)
-
-        if (todoIndex === -1) return
-
-        todoUpdate[todoIndex].priority = !todoUpdate[todoIndex].priority
-
-        if (todoUpdate[todoIndex].priority) {
-            todoUpdate.sort((a, b) => {
-                if (a.priority && !b.priority) return -1
-                if (!a.priority && b.priority) return 1
-                return 0
-            })
+        if (typeof window !== 'undefined') {
+            let todoUpdate = [...todos];
+    
+            const todoIndex = todoUpdate.findIndex((todo) => todo.ID === id);
+    
+            if (todoIndex === -1) return;
+    
+            todoUpdate[todoIndex].priority = !todoUpdate[todoIndex].priority;
+    
+            if (todoUpdate[todoIndex].priority) {
+                todoUpdate.sort((a, b) => {
+                    if (a.priority && !b.priority) return -1;
+                    if (!a.priority && b.priority) return 1;
+                    return 0;
+                });
+            }
+            setTodos(todoUpdate);
+            localStorage.setItem('todos', JSON.stringify(todoUpdate)); // Simpan ke localStorage
         }
-        setTodos(todoUpdate)
-    }
+    };
 
     return (
         <>
@@ -202,7 +213,7 @@ const FormTodo = () => {
                                         <li><a onClick={() => handleFilter("completed")}>Completed</a></li>
                                         <li><a onClick={() => handleFilter("uncompleted")}>Uncompleted</a></li>
                                         <li><a onClick={() => handleFilter("priority")}>Priority</a></li>
-                                        
+
 
                                     </ul>
                                 </details>
@@ -255,12 +266,12 @@ const FormTodo = () => {
                         </div>
                     </div>
 
-                <ModalTime 
-                id={'modal_edit'}
-                value={timeTodo}
-                onChange={handlePickTIme}
-                onClick={handleUpdate}
-                />
+                    <ModalTime
+                        id={'modal_edit'}
+                        value={timeTodo}
+                        onChange={handlePickTIme}
+                        onClick={handleUpdate}
+                    />
 
                 </div>
                     : null

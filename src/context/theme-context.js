@@ -5,13 +5,16 @@ import { createContext, useState, useEffect } from "react";
 const ThemeContext = createContext();
 
 const ThemeProvider = ({ children }) => {
-
   const getThemeFromLS = () => {
-    const theme = localStorage.getItem("theme");
-    if (theme) {
-      return theme;
+    if (typeof window !== "undefined") {
+      const theme = localStorage.getItem("theme");
+      if (theme) {
+        return theme;
+      } else {
+        return "dark";
+      }
     } else {
-      return "dark";
+      return "dark"; // Default theme if localStorage is not accessible
     }
   };
 
@@ -19,11 +22,16 @@ const ThemeProvider = ({ children }) => {
 
   const handleThemeChange = (theme) => {
     setSelectedTheme(theme);
-    window.location.reload();
+    if (typeof window !== "undefined") {
+      localStorage.setItem("theme", theme);
+      window.location.reload();
+    }
   };
 
   useEffect(() => {
-    localStorage.setItem("theme", selectedTheme);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("theme", selectedTheme);
+    }
   }, [selectedTheme]);
 
   return (
