@@ -1,4 +1,12 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# TodoList Web With Next JS & DaisyUI using Local Storage
+
+<div style="display: flex;">
+   <img src="https://imagetolink.com/ib/4aggnSpcHj.png" alt="JtnAjVv79T" width="50%" style="box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);"/>
+   <img src="https://imagetolink.com/ib/8QssirG6UY.png" alt="JtnAjVv79T" width="16%" style="box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);" />
+</div>
+
+## Demo
+<a href="https://todolist-faman272.vercel.app/">https://todolist-faman272.vercel.app/</a>
 
 ## Getting Started
 
