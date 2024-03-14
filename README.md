@@ -9,8 +9,12 @@
 <a href="https://todolist-faman272.vercel.app/">https://todolist-faman272.vercel.app/</a>
 
 ## Getting Started
+Firs, Install Package
+```bash
+npm i
+```
 
-First, run the development server:
+Run the development server:
 
 ```bash
 npm run dev
