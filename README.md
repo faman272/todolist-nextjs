@@ -1,8 +1,8 @@
 # TodoList Web With Next JS & DaisyUI using Local Storage
 
 <div style="display: flex;">
-   <img src="https://imagetolink.com/ib/4aggnSpcHj.png" alt="JtnAjVv79T" width="50%" style="box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);"/>
-   <img src="https://imagetolink.com/ib/8QssirG6UY.png" alt="JtnAjVv79T" width="16%" style="box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);" />
+   <img src="https://imagetolink.com/ib/aG8bJb1z1k.png" alt="JtnAjVv79T" width="50%" style="box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);"/>
+   <img src="https://imagetolink.com/ib/7SAj3kcihD.png" alt="JtnAjVv79T" width="16%" style="box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);" />
 </div>
 
 ## Demo
